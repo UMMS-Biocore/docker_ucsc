@@ -1,7 +1,8 @@
+echo "127.0.0.1 blat1d blat1c blat1a blat1b" >> /etc/hosts
 gfServer start blatMachine 17789 -stepSize=5 -log=/var/log/blatServernotrans.log /gbdb/danRer7/danRer7.2bit &
 gfServer start blatMachine 17788 -trans -log=/var/log/blatServertrans.log /gbdb/danRer7/danRer7.2bit &
-gfServer start blatMachine 17863 -stepSize=5 -log=/var/log/blatServernotrans.log /gbdb/danRer10/danRer7.2bit &
-gfServer start blatMachine 17862 -trans -log=/var/log/blatServertrans.log /gbdb/danRer7/danRer10.2bit &
+gfServer start blatMachine 17863 -stepSize=5 -log=/var/log/blatServernotrans.log /gbdb/danRer10/danRer10.2bit &
+gfServer start blatMachine 17862 -trans -log=/var/log/blatServertrans.log /gbdb/danRer10/danRer10.2bit &
 gfServer start blatMachine 17875 -stepSize=5 -log=/var/log/blatServernotrans.log /gbdb/danRer11/danRer11.2bit &
 gfServer start blatMachine 17874 -trans -log=/var/log/blatServertrans.log /gbdb/danRer11/danRer11.2bit &
 gfServer start blatMachine 17779 -stepSize=5 -log=/var/log/blatServernotrans.log /gbdb/hg19/hg19.2bit &

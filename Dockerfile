@@ -111,15 +111,13 @@ ENV APACHE_LOG_DIR /var/log/apache2
 
 EXPOSE 80 443
 
-RUN cd /usr/bin && wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/blat/gfServer
 RUN wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/blat/blat -P /usr/bin
 RUN chmod a+x /usr/bin/blat
 RUN wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/blat/gfClient -P /usr/bin
-RUN chmod a+x /usr/bin/blat
+RUN chmod a+x /usr/bin/gfClient
 RUN wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/blat/gfServer -P /usr/bin
-RUN chmod a+x /usr/bin/blat
-ADD startBlat /usr/bin/startBlat
-RUN chmod a+x /usr/bin/startBlat
-
+RUN chmod a+x /usr/bin/gfServer
+ADD startBlat /usr/sbin/startBlat
+RUN chmod a+x /usr/sbin/startBlat
 
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
