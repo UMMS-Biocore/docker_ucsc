@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-MAINTAINER Meng Wang <wangm0855@gmail.com>
+MAINTAINER Alper Kucukural <alper@kucukural.com>
 LABEL Description="UCSC Genome Browser"
 
 #
@@ -7,7 +7,7 @@ LABEL Description="UCSC Genome Browser"
 #
 RUN apt-get update && apt-get install -y git build-essential \
     apache2 mysql-client-5.7 mysql-client-core-5.7 \
-    libpng12-dev libssl-dev openssl libmysqlclient-dev && \
+    libpng12-dev libssl-dev openssl vim wget libmysqlclient-dev && \
     apt-get clean
 
 #
@@ -17,10 +17,10 @@ ENV MACHTYPE x86_64
 RUN mkdir -p ~/bin/${MACHTYPE}
 RUN rm /var/www/html/index.html && mkdir /var/www/trash && \
     mkdir /usr/local/apache && ln -s /var/www/html /usr/local/apache/htdocs && \
-    rsync -avzP rsync://hgdownload.cse.ucsc.edu/htdocs/ /var/www/html/
+    rsync -avzP rsync://hgdownload-euro.soe.ucsc.edu/htdocs/ /var/www/html/
 
 RUN mkdir /var/www/cgi-bin && \
-    rsync -avP rsync://hgdownload.soe.ucsc.edu/cgi-bin/ /var/www/cgi-bin/
+	    rsync -avP rsync://hgdownload-euro.soe.ucsc.edu/cgi-bin/ /var/www/cgi-bin/
 
 
 #
@@ -95,8 +95,9 @@ RUN ln -s /etc/apache2/mods-available/include.load /etc/apache2/mods-enabled/ &&
 #
 # Get gbdb data from UCSC
 #
-RUN mkdir -p /gbdb/hg38 && mkdir -p /gbdb/visiGene && \
-    rsync -avzP --delete --max-delete=20 rsync://hgdownload.cse.ucsc.edu/gbdb/hg38/hg38.2bit /gbdb/hg38/hg38.2bit
+RUN mkdir -p /gbdb/hg38 && mkdir -p /gbdb/visiGene
+#RUN mkdir -p /gbdb/hg38 && mkdir -p /gbdb/visiGene && \
+#    rsync -avzP --delete --max-delete=20 rsync://hgdownload.cse.ucsc.edu/gbdb/hg38/hg38.2bit /gbdb/hg38/hg38.2bit
 
 RUN chown -R www-data.www-data /var/www /gbdb
 
@@ -109,5 +110,16 @@ ENV APACHE_RUN_GROUP www-data
 ENV APACHE_LOG_DIR /var/log/apache2
 
 EXPOSE 80 443
+
+RUN cd /usr/bin && wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/blat/gfServer
+RUN wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/blat/blat -P /usr/bin
+RUN chmod a+x /usr/bin/blat
+RUN wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/blat/gfClient -P /usr/bin
+RUN chmod a+x /usr/bin/blat
+RUN wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/blat/gfServer -P /usr/bin
+RUN chmod a+x /usr/bin/blat
+ADD startBlat /usr/bin/startBlat
+RUN chmod a+x /usr/bin/startBlat
+
 
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
