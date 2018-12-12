@@ -6,7 +6,7 @@ LABEL Description="UCSC Genome Browser"
 # Install dependencies
 #
 RUN apt-get update && apt-get install -y git build-essential \
-    apache2 mysql-client-5.7 mysql-client-core-5.7 \
+    apache2 mysql-client-5.7 mysql-client-core-5.7 ghostscript gmt uuid-dev\
     libpng12-dev libssl-dev openssl vim wget libmysqlclient-dev && \
     apt-get clean
 
