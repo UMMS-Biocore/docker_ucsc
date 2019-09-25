@@ -42,8 +42,22 @@ RUN { \
         echo 'backupcentral.user=admin'; \
         echo 'backupcentral.password=admin'; \
         echo 'backupcentral.domain='; \
+	echo 'customTracks.host=gbdb'; \
+	echo 'customTracks.user=admin'; \
+	echo 'customTracks.password=admin'; \
+	echo 'customTracks.useAll=yes'; \
+	echo 'customTracks.tmpdir=/gbdb/genomebrowser/data/tmp'; \
     } > /var/www/cgi-bin/hg.conf
 
+
+RUN mkdir -p /gbdb/genomebrowser/data/tmp
+RUN mkdir -p /gbdb/genomebrowser/.conf
+RUN { \
+        echo 'db.host=gbdb'; \
+        echo 'db.user=admin'; \
+        echo 'db.password=admin'; \
+} > /gbdb/genomebrowser/.conf/.ct.hg.conf
+RUN chmod 600 /gbdb/genomebrowser/.conf/.ct.hg.conf
 
 #
 # Config daliy clean
